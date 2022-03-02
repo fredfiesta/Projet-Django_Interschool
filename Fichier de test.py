@@ -1,2 +1,2 @@
 print('hello')
-print('test from zak')
+print('test')
