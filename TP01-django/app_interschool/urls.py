@@ -1,4 +1,4 @@
-"""TP01 URL Configuration
+"""app_interschool URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.0/topics/http/urls/
@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from TP01.quickstart import views
+from app_interschool.quickstart import views
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)

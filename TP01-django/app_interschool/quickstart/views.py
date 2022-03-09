@@ -8,7 +8,7 @@ def hello(request):
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
-from TP01.quickstart.serializers import UserSerializer, GroupSerializer
+from app_interschool.quickstart.serializers import UserSerializer, GroupSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -26,12 +26,4 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-class EventViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
     permission_classes = [permissions.IsAuthenticated]
