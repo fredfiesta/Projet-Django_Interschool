@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User, Group
-from app_interschool.quickstart.models import Event
+from app_interschool.quickstart.models import Evenement
 from rest_framework import serializers
 
 
@@ -15,8 +15,8 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['url', 'name']
 
 
-class EventSerializer(serializers.HyperlinkedModelSerializer):
+class EvenementSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Event
+        model = Evenement
         fields = ['date_creation', 'date',
                   'titre', 'lieu', 'lieu', 'desc']
