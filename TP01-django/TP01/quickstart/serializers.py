@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User, Group
+from TP01.quickstart.models import Event
 from rest_framework import serializers
 
 
@@ -12,3 +13,9 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ['url', 'name']
+
+
+class EventSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Event
+        fields = ['date_de_creation', 'nom_de_event', 'description']
