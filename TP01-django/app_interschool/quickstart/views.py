@@ -1,12 +1,12 @@
+# Create your views here.
 from django.http import HttpResponse
 from django.shortcuts import render
-
-# Create your views here.
 from django.contrib.auth.models import User, Group
 from app_interschool.quickstart.models import Event
 from rest_framework import viewsets
 from rest_framework import permissions
 from app_interschool.quickstart.serializers import UserSerializer, GroupSerializer, EventSerializer
+from url_filter.integrations.drf import DjangoFilterBackend
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -27,12 +27,8 @@ class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
-
-
-from url_filter.integrations.drf import DjangoFilterBackend
-
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_fields = ['titre']
+    filter_fields = ['titre', 'desc']
