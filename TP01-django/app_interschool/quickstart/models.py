@@ -8,4 +8,4 @@ class Event(models.Model):
     desc = models.TextField()
 
     class Meta:
-        ordering = ['date_de_creation']
+        ordering = ['desc']

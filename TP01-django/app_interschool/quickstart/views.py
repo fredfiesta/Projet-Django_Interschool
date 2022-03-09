@@ -1,14 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-def hello(request):
-    return HttpResponse('<h1>Hello Django!</h1>')
-
 # Create your views here.
 from django.contrib.auth.models import User, Group
+from app_interschool.quickstart.models import Event
 from rest_framework import viewsets
 from rest_framework import permissions
-from app_interschool.quickstart.serializers import UserSerializer, GroupSerializer
+from app_interschool.quickstart.serializers import UserSerializer, GroupSerializer, EventSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -27,3 +25,14 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+
+
+from url_filter.integrations.drf import DjangoFilterBackend
+
+class EventViewSet(viewsets.ModelViewSet):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    filter_backends = [DjangoFilterBackend]
+    filter_fields = ['titre']
