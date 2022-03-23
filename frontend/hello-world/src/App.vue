@@ -1,15 +1,15 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Test msg="Le message est le suivant"/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Test from './components/TestDjango.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Test
   }
 }
 </script>
@@ -22,5 +22,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  
 }
+img{
+  height: 200px;
+  width: 200px;
+}
+
+
 </style>
