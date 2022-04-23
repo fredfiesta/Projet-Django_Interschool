@@ -7,8 +7,22 @@
             <div v-for="e in listeEvent" class="event" @click="choix(e)">{{e.nom}}</div>
           </event>
 
-          <div class="info">
-            {{info}}
+          <div v-if="SelectedEvent != null" class="info">
+          
+            <div v-if="image"><img style="width:50%;height: 50%;max-width:400px;max-height: 400px;" :src="image" alt=""></div>     
+            <div>
+              <ul>
+                <li>Nom :  {{SelectedEvent.nom}}</li>
+                <li>Date : {{SelectedEvent.date}}</li>
+                <li>Description : {{SelectedEvent.description}}</li>
+                <li>Heure : {{SelectedEvent.heure}}</li>
+              </ul>
+            </div>
+          <div>
+            <button>Reserver</button>
+          </div>
+
+
           </div>
             
         </div>
@@ -27,15 +41,18 @@
       data() {
         return {        
           listeEvent:[],
-          info:""
+          SelectedEvent:null,
+          image:null
         }
       },
       methods: {
         choix(e){
-          this.info = e.nom+" "+e.date+" "+e.description;
+          this.SelectedEvent = e;
+          this.image = e.image;
         }
       },
       mounted(){
+
           fetch("http://127.0.0.1:8000/evenements/", {method : "GET"})
           .then(res=>res.json())
           .then(event => this.listeEvent=event.results)}
