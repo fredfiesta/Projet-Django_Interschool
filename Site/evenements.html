@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<link href="css/animate.css" rel="stylesheet">
+<html>
+    <body>
+        <div id="app" class="events">
+          <event>
+            <div v-for="e in listeEvent" class="event" @click="choix(e)">{{e.nom}}</div>
+          </event>
+
+          <div class="info">
+            {{info}}
+          </div>
+            
+        </div>
+      </body>
+</html>
+
+
+
+
+
+
+<script src="https://unpkg.com/vue@3"></script>
+<script>
+
+    Vue.createApp({
+      data() {
+        return {        
+          listeEvent:[],
+          info:""
+        }
+      },
+      methods: {
+        choix(e){
+          this.info = e.nom+" "+e.date+" "+e.description;
+        }
+      },
+      mounted(){
+          fetch("http://127.0.0.1:8000/evenements/", {method : "GET"})
+          .then(res=>res.json())
+          .then(event => this.listeEvent=event.results)}
+    }).mount('#app')
+  </script>
