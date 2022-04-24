@@ -3,6 +3,14 @@
 <html>
     <body>
         <div id="app" class="events">
+
+          <trier>
+            <input></input>
+            <SELECT>
+              
+            </SELECT>
+          </trier>
+
           <event>
             <div v-for="e in listeEvent" class="event" @click="choix(e)">{{e.nom}}</div>
           </event>
@@ -41,6 +49,7 @@
       data() {
         return {        
           listeEvent:[],
+          listeLieu:[],
           SelectedEvent:null,
           image:null
         }
@@ -53,8 +62,17 @@
       },
       mounted(){
 
-          fetch("http://127.0.0.1:8000/evenements/", {method : "GET"})
-          .then(res=>res.json())
-          .then(event => this.listeEvent=event.results)}
+        fetch("http://127.0.0.1:8000/evenements/", {
+            method : "GET"
+          })
+          .then(lieu=>lieu.json(),event=>event.json())
+          .then(event => this.listeEvent=event.results, lieu => this.listeLieu=lieu.results)
+          .then(console.log(this.listeLieu))
+          }
+
+          
+
+          
+
     }).mount('#app')
   </script>
