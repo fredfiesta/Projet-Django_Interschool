@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Bienvenue · </title>
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/album/">
+	
+    <!-- Bootstrap core CSS -->
+<link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+  
+  </head>
+<body>
+    
+<header>
+  <div class="collapse bg-dark" id="navbarHeader">
+    <div class="container">
+      <div class="row">
+        
+      </div>
+    </div>
+  </div>
+  <div class="navbar navbar-dark bg-dark shadow-sm">
+    <div class="container">
+      <a href="index.html" class="navbar-brand d-flex align-items-center">
+       <strong>My Profile</strong>
+      </a>
+     
+    </div>
+  </div>
+</header>
+
+<main id="app">
+
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Bienvenue {{usernameTilte}}</h1>
+        <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+      </div>
+	  <div style="display: flex; flex-direction: column">
+		<p>
+        	<a style="margin-right:10px" class="btn btn-primary my-2" @click="switchAfficheEvent">Mes evenements</a> 
+        	<a class="btn btn-secondary my-2" @click="switchAfficheInscription">Mes inscriptions</a>
+			<a class="btn btn-thirdly my-2" @click="CreateEvent">Creer un evenement</a>
+        </p>
+	  </div>
+    </div>
+  </section>
+
+  <div class="album py-5 bg-light">
+	<!-- Affichage event -->
+    <div class="container" v-if="formCreateEvent == false">
+		<div class="container box">
+			<trier>
+				<label>Recherche :</label><br>
+				<input v-model="filtre" @keyup="rech"></input>
+				<label>Tri par lieu :</label><br>
+				<SELECT v-model="filtreLieu" @change="rechLieu()">
+					<OPTION></OPTION>
+					<OPTION v-for="l in listeLieu">{{l.nom}}</OPTION>
+				</SELECT><br>
+				<label>Tri par date :</label><br>
+				<SELECT v-model="tri" @change="sort()">
+					<OPTION value="asc">Plus proche</OPTION>
+					<OPTION value="desc">Plus loin</OPTION>
+				</SELECT>
+			</trier>
+		</div>
+		<br><br>
+    	<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+        <!-- liste des mes evenement que jai créer-->
+        <div v-if="myevent==true" class="col" v-for="e in MesEventaffiche">	
+			<div class="card shadow-sm">
+				<div class="bd-placeholder-img card-img-top" width="100%" height="225" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+	
+					<div style="width: 100%;">
+						<img class="blog-image" :src=e.image style="width: 100%;height: 100%;" alt="Blog Image 2" />
+					</div>
+				</div>
+				<div class="card-body">
+				  <p class="card-text">Description</p>
+				  <div class="d-flex justify-content-between align-items-center">
+					<div class="btn-group">
+					  <button type="button" class="btn btn-sm btn-outline-secondary">Commenter</button>
+					  <button type="button" class="btn btn-sm btn-outline-secondary">Modifier</button>
+					</div>
+					<small class="text-muted">{{e.date}}</small>
+				  </div>
+				</div>
+			</div>
+        </div>
+		<!-- liste des mes evenement ou je suis inscrit-->
+		<div v-if="myevent==false" class="col" v-for="e in afficheInscription">	
+			<div class="card shadow-sm">
+				<div class="bd-placeholder-img card-img-top" width="100%" height="225" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+					<div style="width: 100%;">
+						<img class="blog-image" :src=e.image style="width: 100%;height: 100%;" alt="Blog Image 2" />
+					</div>
+				</div>
+				<div class="card-body">
+				  <p class="card-text">Description</p>
+				  <div class="d-flex justify-content-between align-items-center">
+					<div class="btn-group">
+					  <button type="button" class="btn btn-sm btn-outline-secondary">Commenter</button>
+					  <button type="button" class="btn btn-sm btn-outline-secondary">Modifier</button>
+					</div>
+					<small class="text-muted">{{e.date}}</small>
+				  </div>
+				</div>
+			</div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+
+	<!-- Formulaire creation event -->
+	<div v-if="formCreateEvent==true"  enctype="multipart/form-data">
+		<form style="width: 70%;margin: 60px;">
+			<div class="mb-3">
+			  <label for="exampleInputEmail1" class="form-label" >Nom de l'énenement : </label>
+			  <input v-model="nomEvent" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+			</div>
+			<div class="mb-3">
+			  <label for="exampleInputPassword1" class="form-label">Date :</label>
+			  <input v-model="dateEvent" type="date" class="form-control" >
+			</div>
+			<div class="mb-3">
+				<label for="exampleInputPassword1" class="form-label">Heure :</label>
+				<input v-model="heureEvent" type="time" class="form-control">
+			  </div>
+			  <div class="mb-3">
+				<label for="exampleInputPassword1" class="form-label">Description :</label>
+				<input v-model="descEvent" type="textarea" class="form-control" >
+			  </div>
+			  <div class="mb-3">
+				<label for="exampleInputPassword1" class="form-label">Image :</label>
+				<input v-model="imageEvent" type="file" name="file" @change="setImage" class="form-control" >
+			  </div>
+			  <div class="mb-3">
+				<label for="exampleInputPassword1" class="form-label">Lieu :</label>
+				<input v-model="lieuEvent" type="text" class="form-control" >
+			  </div>
+			
+			<button type="submit" class="btn btn-primary" @click="create">Creer </button>
+		  </form>
+	</div>
+
+  </div>
+
+</main>
+
+
+
+    
+
+      
+  </body>
+</html>
+
+<script src="assets/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/vue@3"></script>
+<script>
+	Vue.createApp({
+		data() {
+			return {
+				usernameTilte: "",
+				listeEvent: [],
+				listeLieu: [],
+				MesEventaffiche: [],
+				afficheInscription:[],
+				SelectedEvent: null,
+				image: null,
+				filtre: "",
+				filtreLieu: "",
+				rez: null,
+				tri: "asc",
+				token:"",
+				Createur:"",
+				myevent:true,
+				formCreateEvent:false,
+				nomEvent:"",
+				imageEvent:"",
+				headerImg: [],
+				file: null,
+			}
+		},
+		methods: {
+			CreateEvent(){
+				this.formCreateEvent=true;
+			},
+			create(){
+				this.formCreateEvent=false;
+				var json = JSON.parse(localStorage.getItem("user"))
+				const requestOptions = {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					nom: this.nomEvent,
+					date: this.dateEvent,
+					heure: this.heureEvent,
+					description: this.descEvent,
+					image: this.imageEvent,
+					Lieu: "http://127.0.0.1:8000/lieu/1/",
+					Createur : json.url,
+				})
+				};
+				console.log(requestOptions.body);
+				fetch("http://127.0.0.1:8000/evenements/", requestOptions)
+			},
+			setImage(e){
+				file = e.target.files[0]
+				//console.log(instanceOfFileReader.readAsDataURL(file));
+				this.imageEvent = "http:\/\/127.0.0.1:8000\/media\/event_images\/"+file.name
+			},
+			setLieu(){
+				console.log(this.listeLieu)
+			},
+			rech(listeEvent) {
+				this.affiche = this.listeEvent.filter(p => p.nom.toLowerCase().startsWith(this.filtre.toLowerCase()));
+			},rechLieu() {
+				if (this.filtreLieu == "") {
+					this.affiche = this.listeEvent.filter(p => p.nom.toLowerCase().startsWith(this.filtre.toLowerCase()));
+				} else {
+					this.affiche = this.listeEvent.filter(p => p.nom.toLowerCase().startsWith(this.filtre.toLowerCase())).filter(p2 => p2.lieu.nom.toLowerCase() == (this.filtreLieu.toLowerCase()));
+				}
+			},sort() {
+				if (this.tri == "asc") {
+					this.affiche = this.affiche.sort((a, b) => Date.parse(a.date) - Date.parse(b.date));
+				} else {
+					this.affiche = this.affiche.sort((a, b) => Date.parse(b.date) - Date.parse(a.date));
+				}
+			},switchAfficheEvent(){
+				this.myevent=true;
+				this.formCreateEvent=false;
+			},
+			switchAfficheInscription(){
+				this.myevent=false;
+				this.formCreateEvent=false;
+			}
+			
+			
+
+		},
+		mounted() {
+			if(sessionStorage.getItem("token")!=null){
+				//Ce bout de code est sur chaque page, afin de verifier a chaque fois s'il y a une connexion et si oui on stoque l'user en cours //
+				this.token = sessionStorage.getItem("token");		
+				fetch('http://127.0.0.1:8000/user', { method: 'GET', headers: {'Content-Type': 'application/json','Authorization':"Token "+this.token} })
+				.then(res => res.json()) .then(res => {localStorage.setItem("user", JSON.stringify(res))})
+			}
+			else{
+				window.location.href = "index.html";
+			}
+			var json = JSON.parse(localStorage.getItem("user"));
+			this.usernameTilte = json.name;
+			
+			Promise.all([	
+				fetch("http://127.0.0.1:8000/evenements/", {
+					method: "GET"
+				}),
+				fetch("http://127.0.0.1:8000/lieu/", {
+					method: "GET"
+				}),
+				fetch("http://127.0.0.1:8000/users/", {
+					method: "GET"
+				}),
+				fetch("http://127.0.0.1:8000/participe/", {
+					method: "GET"
+				})
+				]).then(responses => {
+					return Promise.all(responses.map(response => response.json()));
+				}).then(data => {						
+					data[0].results.forEach(e => {e.lieu = data[1].results.find(l => l.url == e.Lieu);});
+					data[0].results.forEach(u => {u.Createur = data[2].results.find(us => us.url == u.Createur);});
+					data[3].results.forEach(p => {
+						var user = JSON.parse(localStorage.getItem("user"));
+						p.Event = data[0].results.find(e => e.url == p.Event),
+						p.User = data[2].results.find(u => u.url == p.User)
+						this.afficheInscription = data[3].results.filter(p => p.User.url == user.url);
+					});
+					this.listeEvent = data[0].results.filter(p => p.Createur.url == localStorage.getItem("url"));
+					this.listeLieu = data[1].results;
+					this.MesEventaffiche = this.listeEvent;
+				})
+
+		}
+	}).mount('#app')
+</script>
